@@ -29,5 +29,5 @@ services:
       --force-renewal 
       --email sahilchaudhari2405@gmail.com
       --agree-tos 
-      -d thetrektraveller.com 
-      -d www.thetrektraveller.com
+      -d apalabajar.shop
+      -d www.apalabajar.shop
