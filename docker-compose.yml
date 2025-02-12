@@ -27,7 +27,7 @@ services:
     command: >
       certonly --webroot -w /var/www/certbot 
       --force-renewal 
-      --email myemail@example.com 
+      --email sahilchaudhari2405@gmail.com
       --agree-tos 
       -d thetrektraveller.com 
       -d www.thetrektraveller.com
