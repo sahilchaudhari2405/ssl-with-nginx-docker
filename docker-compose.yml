@@ -1,33 +1,42 @@
-version: "3.8"  # Optional, but recommended
+version: '3.8'
 
 services:
-  helloworld:
-    container_name: helloworld
-    image: crccheck/hello-world
-    expose:
-      - 8000
-
   nginx:
-    container_name: nginx
-    restart: unless-stopped
-    image: nginx
+    image: nginx:latest
+    container_name: nginx_server
+    restart: always
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./certbot/www:/var/www/certbot  # Mount Certbot's webroot to Nginx
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certbot.conf:/etc/nginx/conf.d/certbot.conf:ro
+      - ./html:/usr/share/nginx/html:ro
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    depends_on:
+      - certbot
 
   certbot:
-    container_name: certbot
     image: certbot/certbot
+    container_name: certbot_ssl
+    restart: always
     volumes:
-      - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    entrypoint: ["/bin/sh", "-c"]
     command: >
-      certonly --webroot -w /var/www/certbot 
-      --force-renewal 
-      --email sahilchaudhari2405@gmail.com
-      --agree-tos 
-      -d apalabajar.shop
-      -d www.apalabajar.shop
+      "certbot certonly --webroot --webroot-path /var/www/certbot
+      --email sahilchaudhari2405@gmail.com --agree-tos --no-eff-email
+      -d yourdomain.com
+      --keep-until-expiring"
+
+  certbot-renew:
+    image: certbot/certbot
+    container_name: certbot_renew
+    restart: always
+    volumes:
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    entrypoint: ["/bin/sh", "-c"]
+    command: "crond -f && certbot renew --quiet && nginx -s reload"
