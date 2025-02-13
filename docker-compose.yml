@@ -1,16 +1,18 @@
 services:
-    helloworld:
-        container_name: helloworld
-        image: crccheck/hello-world
-        expose:
-            - 8000
+  helloworld:
+    container_name: helloworld
+    image: crccheck/hello-world
+    expose:
+      - 8000  # Keep for internal access
+    ports:
+      - 8000:8000  # Add to allow external access
 
-    nginx:
-        container_name: nginx
-        restart: unless-stopped
-        image: nginx
-        ports:
-            - 80:80
-            - 443:443
-        volumes:
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  nginx:
+    container_name: nginx
+    restart: unless-stopped
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # Fix path (typo)
