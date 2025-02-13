@@ -28,7 +28,7 @@ services:
     command: >
       "certbot certonly --webroot --webroot-path /var/www/certbot
       --email sahilchaudhari2405@gmail.com --agree-tos --no-eff-email
-      -d yourdomain.com
+      -d thetrektraveller.com -d www.thetrektraveller.com
       --keep-until-expiring"
 
   certbot-renew:
