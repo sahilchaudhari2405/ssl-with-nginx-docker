@@ -5,47 +5,24 @@ services:
     container_name: helloworld
     image: crccheck/hello-world
     expose:
-      - "8000"
-    networks:
-      - app-network
+      - 8000
 
   nginx:
     container_name: nginx
     restart: unless-stopped
     image: nginx
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./certbot/conf:/etc/letsencrypt  # Mount SSL certs
       - ./certbot/www:/var/www/certbot  # Webroot for Certbot challenge
-    networks:
-      - app-network
-    depends_on:
-      - helloworld
 
   certbot:
     image: certbot/certbot
     container_name: certbot
-    volumes:
+    volumes: 
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    command:
-      [
-        "certonly",
-        "--webroot",
-        "-w", "/var/www/certbot",
-        "--force-renewal",
-        "--email", "sahilchaudhari2405@gmail.com",
-        "--agree-tos",
-        "--staging", # REMOVE this once SSL is verified
-        "-d", "thetrektraveller.com",
-        "-d", "www.thetrektraveller.com"
-      ]
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email your-email@example.com -d thetrektraveller.com --agree-tos
