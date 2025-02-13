@@ -28,4 +28,4 @@ services:
     volumes:
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
-    entrypoint: certbot certonly --webroot --webroot-path /var/www/certbot --email sahilchaudhari2405@gmail.com --agree-tos --no-eff-email -d thetrektraveller.com -d www.thetrektraveller.com
+    entrypoint: sh -c "certbot certonly --webroot --webroot-path /var/www/certbot --email sahilchaudhari2405@gmail.com--agree-tos --no-eff-email -d thetrektraveller.com -d www.thetrektraveller.com && nginx -s reload"
