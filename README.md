@@ -3,7 +3,7 @@
 ## **Step 1: Launch an EC2 Instance**
 1. Log in to your AWS Management Console.
 2. Navigate to **EC2 Dashboard** → Click on **Launch Instance**.
-3. Choose **Ubuntu 22.04 LTS** (or any preferred Linux distribution).
+3. Choose **Ubuntu  LTS** (or any preferred Linux distribution).
 4. Select an instance type (**t2.micro** for free tier).
 5. Configure security group:
    - Open **Port 80 (HTTP)** and **Port 443 (HTTPS)** for public access.
@@ -29,8 +29,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 ## **Step 4: Clone the Repository**
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
+git clone https://github.com/sahilchaudhari2405/ssl-with-nginx-docker.git
+cd ssl-with-nginx-docker
 ```
 
 ## **Step 5: Configure Route 53 for Your Domain**
@@ -45,41 +45,10 @@ cd YOUR_REPO
 3. Set **Value** as your EC2 Public IP → Click **Create Record**.
 
 ## **Step 6: Deploy Docker Containers**
-1. Inside the cloned repository, create required directories:
-```bash
-mkdir -p certbot/conf certbot/www nginx
-```
-2. Copy your `nginx.conf` and `docker-compose.yml` into the project directory.
-
-3. Run Docker Compose:
+1. Run Docker Compose:
 ```bash
 docker-compose up -d
 ```
-
-## **Step 7: Verify and Secure Your Deployment**
-- Visit `http://yourdomain.com` to check if Nginx is serving the website.
-- Run the following command to check if containers are running:
-```bash
-docker ps
-```
-- If SSL is working, you should see a padlock when accessing `https://yourdomain.com`.
-
-## **Step 8: Set Up Automatic SSL Renewal**
-Certbot is already configured in the `docker-compose.yml` to renew certificates. However, you can manually test renewal using:
-```bash
-docker-compose run certbot-renew certbot renew --dry-run
-```
-
-## **Step 9: Reboot Policy and Restarting Services**
-To ensure your setup restarts on reboot:
-```bash
-sudo systemctl enable docker
-```
-To restart the setup manually:
-```bash
-docker-compose down && docker-compose up -d
-```
-
 ---
 Your secure Docker-based application with SSL is now live on AWS EC2 with Route 53! 🚀
 
