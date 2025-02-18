@@ -32,7 +32,9 @@ sudo chmod +x /usr/local/bin/docker-compose
 git clone https://github.com/sahilchaudhari2405/ssl-with-nginx-docker.git
 cd ssl-with-nginx-docker
 ```
-
+1. Go to **nginx.config**.
+2. Change the domain with your domain and save (e.g., `yourdomain.com`).
+3. Go to **docker-compose.yml** and update the domain and email.
 ## **Step 5: Configure Route 53 for Your Domain**
 1. Go to **AWS Route 53** → **Create Hosted Zone**.
 2. Enter your domain name (e.g., `yourdomain.com`).
